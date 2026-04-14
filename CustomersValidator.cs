@@ -1,0 +1,20 @@
+﻿using FluentValidation;
+using MasterFinder.Domain.Entities;
+
+namespace MasterFinder.Domain.Validators
+{
+    public class CustomersValidator : AbstractValidator<Customer>
+    {
+        public CustomersValidator()
+        {
+            RuleFor(x => x.Username)
+                .NotEmpty().WithMessage("Имя пользователя обязательно")
+                .MinimumLength(2).WithMessage("Имя должно содержать минимум 2 символа")
+                .MaximumLength(100).WithMessage("Имя не может быть длиннее 100 символов");
+
+            RuleFor(x => x.Phone)
+                .NotEmpty().WithMessage("Телефон обязателен")
+                .Matches(@"^\+?[0-9]{10,15}$").WithMessage("Неверный формат телефона");
+        }
+    }
+}
